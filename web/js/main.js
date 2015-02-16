@@ -1,7 +1,12 @@
 (function ($, window, document, undefined) {
+    function lastArrayItem(result) {
+        return result.list[result.list.length - 1];
+    }
+
     $(function () {
         var timer = null;
-        var startNumber = 0;
+        var startIndex = 0;
+        var isLoading = false;
         var $btn = $('#show');
         var $input = $('#num-digits');
         var $panel = $('#possible-values');
@@ -48,7 +53,7 @@
 
         $btn.on('click', function () {
             var value = $input.val();
-            startNumber = 0;
+            startIndex = 0;
             clearInformationPanelAndHide();
 
             if ($btn.data('amount') > 100)
@@ -59,28 +64,36 @@
         });
 
         function fetchLuckyNumbersListFor(numberOfDigits) {
-            return $.getJSON('/api/luckynumbers/' + numberOfDigits + '/list/' + startNumber);
+            isLoading = true;
+
+            return $.getJSON('/api/luckynumbers/' + numberOfDigits + '/list/' + startIndex);
         }
 
         function dealLuckyNumbersListResult(result) {
             if (isResultHasError(result))
                 messenger.echoError(result.error);
             else {
-                startNumber = result.list[result.list.length - 1];
                 echoList(result.list);
+                startIndex = lastArrayItem(result);
 
-                if (startNumber == Math.pow(10, $input.val()) - 1)
-                    $(window).off('scroll');
+                if (isLastItemFetched())
+                    stopScrollListener();
             }
+
+            isLoading= false;
         }
 
         function startScrollListener() {
             $(window).scroll(function () {
-                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                if ($(window).scrollTop() == $(document).height() - $(window).height() && !isLoading) {
                     fetchLuckyNumbersListFor($input.val())
                         .done(dealLuckyNumbersListResult);
                 }
             });
+        }
+
+        function stopScrollListener() {
+            $(window).off('scroll');
         }
 
         function echoList(list) {
@@ -93,6 +106,10 @@
             });
 
             $pBody.append(html);
+        }
+
+        function isLastItemFetched() {
+            return startIndex == Math.pow(10, $input.val()) - 1;
         }
 
         function Messenger() {
