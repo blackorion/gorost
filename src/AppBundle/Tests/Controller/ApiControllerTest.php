@@ -10,7 +10,7 @@ class ApiControllerTest extends WebTestCase
     public function LuckyNumbers_AnyRequest_ReturnsJSON()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/luckynumbers/1');
+        $client->request('GET', '/api/luckynumbers/1/amount');
         $response = $client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -25,7 +25,7 @@ class ApiControllerTest extends WebTestCase
     public function LuckyNumbers_OddNumberOfDigits_ReturnsError()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/luckynumbers/1');
+        $client->request('GET', '/api/luckynumbers/1/amount');
         $response = $client->getResponse();
 
         $this->assertJsonHasKey("error", $response->getContent());
@@ -37,7 +37,7 @@ class ApiControllerTest extends WebTestCase
     public function LuckyNumbers_RightNumberOfDigits_ReturnsTotalPossibilities()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/luckynumbers/2');
+        $client->request('GET', '/api/luckynumbers/2/amount');
         $response = $client->getResponse();
 
         $this->assertJsonNotHasKey("error", $response->getContent());
@@ -50,7 +50,7 @@ class ApiControllerTest extends WebTestCase
     public function LuckyNumbers_TextAsParameter_ReturnsError()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/luckynumbers/text');
+        $client->request('GET', '/api/luckynumbers/text/amount');
         $response = $client->getResponse();
 
         $this->assertJsonHasKey("error", $response->getContent());

@@ -2,64 +2,106 @@
 
 class LuckyNumbersGenerator
 {
+    const RESULT_LIMIT = 100;
+
     /**
-     * @param int $number_of_digits
-     * @return array
+     * @param int        $number_of_digits
+     * @param mixed|null $start_index
+     *
+     * @return \string[]
      */
-    public static function generate($number_of_digits)
+    public function generate($number_of_digits, $start_index = null)
     {
-        $result = [sprintf("%0{$number_of_digits}d", 0)];
+        $result = [];
 
-        if ( $number_of_digits === 2 )
-        {
-            for ( $i = 1; $i < 10; $i++ )
-                $result[] = sprintf("%d%d", $i, $i);
-
-            return $result;
-        }
+        if ( !$start_index )
+            $result[] = sprintf("%0{$number_of_digits}d", 0);
 
         $half = $number_of_digits / 2;
-        $max = pow(10, $half);
 
-        for ( $i = 1; $i < $max; $i++ )
+        $indexes = $this->prepareStartIndexes($start_index, $half);
+
+        foreach ( $this->getNumbers($half, $indexes) as $number )
         {
-            $i = self::convertToFormattedString($i, $half);
-            $i_sum = self::countNumberSum($i);
+            if ( $start_index != $number )
+                $result[] = $number;
 
-            for ( $j = 1; $j < $max; $j++ )
-            {
-                $j = self::convertToFormattedString($j, $half);
-
-                if ( $i_sum === self::countNumberSum($j) )
-                    $result[] = "{$j}{$i}";
-            }
+            if ( count($result) === self::RESULT_LIMIT )
+                break;
         }
 
         return $result;
     }
 
     /**
-     * @param int $num
+     * @param int   $half
+     * @param array $indexes
+     *
+     * @return array
+     */
+    private function getNumbers($half, $indexes)
+    {
+        $max = pow(10, $half);
+
+        for ( $i = $indexes['right']; $i < $max; $i++ )
+        {
+            $i_sum = self::countTotalSummaryOfNumberDigitValues($i);
+
+            for ( $j = $indexes['left']; $j < $max; $j++ )
+            {
+                $j_sum = self::countTotalSummaryOfNumberDigitValues($j);
+
+                if ( $i_sum === $j_sum )
+                    yield $this->convertToFormattedString($half, $j, $i);
+            }
+        }
+    }
+
+    /**
+     * @param int $number
+     *
      * @return int
      */
-    protected static function countNumberSum($num)
+    protected function countTotalSummaryOfNumberDigitValues($number)
     {
         $total = 0;
-        $len = strlen($num);
+        $number = (string)$number;
+        $len = strlen($number);
 
         for ( $i = 0; $i < $len; $i++ )
-            $total += $num[$i];
+            $total += $number[$i];
 
         return $total;
     }
 
     /**
-     * @param int $num
-     * @param int $half
+     * @param int $half_of_number_of_digits
+     * @param int $first_number
+     * @param int $second_number
+     *
      * @return string
      */
-    private static function convertToFormattedString($num, $half)
+    private function convertToFormattedString($half_of_number_of_digits, $first_number, $second_number)
     {
-        return sprintf("%0{$half}d", $num);
+        return sprintf("%0{$half_of_number_of_digits}d%0{$half_of_number_of_digits}d", $first_number, $second_number);
+    }
+
+    /**
+     * @param $start_from
+     * @param $half
+     *
+     * @return array
+     */
+    private function prepareStartIndexes($start_from, $half)
+    {
+        $indexes = ['left' => 1, 'right' => 1];
+
+        if ( !$start_from )
+            return $indexes;
+
+        $indexes['left'] = substr((string)$start_from, 0, count($start_from) - $half - 1);
+        $indexes['right'] = substr((string)$start_from, (-1 * $half));
+
+        return $indexes;
     }
 }

@@ -30,7 +30,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function Validate_NumberAsString_ReturnsTrue()
     {
-        $result = Validator::isValid("126");
+        $result = Validator::isValid("16");
 
         $this->assertTrue($result);
     }
@@ -40,7 +40,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function Validate_GreaterThanZeroEvenNumber_ReturnsTrue()
     {
-        $cases = [2, 6, 10, 22, 100];
+        $cases = [2, 6, 10, 22, 90];
 
         foreach ( $cases as $test_case )
         {
@@ -55,7 +55,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function Validate_GreaterThanZeroOddNumber_ReturnsFalse()
     {
-        $cases = [1, 5, 11, 111, 199];
+        $cases = [1, 5, 11, 81, 19];
 
         foreach ( $cases as $test_case )
         {
@@ -85,5 +85,16 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($result);
         $this->assertEquals("Число должно быть больше 1", Validator::$lastError);
+    }
+
+    /**
+     * @test
+     */
+    public function Validate_LargeNumber_ReturnsFalse()
+    {
+        $result = Validator::isValid(110);
+
+        $this->assertFalse($result);
+        $this->assertEquals("Число может быть 90 или меньше", Validator::$lastError);
     }
 }

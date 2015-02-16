@@ -128,9 +128,17 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
 
         if (0 === strpos($pathinfo, '/ap')) {
-            // app_api_luckynumbersindex
-            if (0 === strpos($pathinfo, '/api/luckynumbers') && preg_match('#^/api/luckynumbers/(?P<number_of_digits>[^/]++)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'app_api_luckynumbersindex')), array (  '_controller' => 'AppBundle\\Controller\\ApiController::luckyNumbersIndex',));
+            if (0 === strpos($pathinfo, '/api/luckynumbers')) {
+                // app_api_luckynumbersamount
+                if (preg_match('#^/api/luckynumbers/(?P<number_of_digits>[^/]++)/amount$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'app_api_luckynumbersamount')), array (  '_controller' => 'AppBundle\\Controller\\ApiController::luckyNumbersAmount',));
+                }
+
+                // app_api_luckynumberslist
+                if (preg_match('#^/api/luckynumbers/(?P<number_of_digits>[^/]++)/list$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'app_api_luckynumberslist')), array (  '_controller' => 'AppBundle\\Controller\\ApiController::luckyNumbersList',));
+                }
+
             }
 
             // homepage
