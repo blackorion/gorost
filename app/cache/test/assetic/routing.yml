@@ -2,4 +2,4 @@ _assetic:
     resource: .
     type: assetic
 _app:
-    resource: /home/orion/Projects/PHP/gorost/app/config/routing_dev.yml
+    resource: /home/orion/projects/php/gorost/app/config/routing_dev.yml

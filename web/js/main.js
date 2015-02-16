@@ -1,6 +1,7 @@
 (function ($, window, document, undefined) {
     $(function () {
         var timer = null;
+        var startNumber = 0;
         var $btn = $('#show');
         var $input = $('#num-digits');
         var $panel = $('#possible-values');
@@ -10,7 +11,7 @@
         $input.on('input', function () {
             clearInformationPanelAndHide();
 
-            if ( timer !== null )
+            if (timer !== null)
                 clearTimeout(timer);
 
             timer = setTimeout(getAmountOfLuckyNumbers, 500);
@@ -19,7 +20,7 @@
         function getAmountOfLuckyNumbers() {
             var numberOfDigits = $input.val();
 
-            if ( validator.isValid(numberOfDigits) )
+            if (validator.isValid(numberOfDigits))
                 fetchAmountOfLuckyNumbersFor(numberOfDigits)
                     .done(dealAmountOfLuckyNumbersResult);
             else
@@ -35,45 +36,51 @@
         }
 
         function dealAmountOfLuckyNumbersResult(result) {
-            if ( isResultHasError(result) ) {
-                $btn.prop({ disabled: true }).data({ amount: 0 });
+            if (isResultHasError(result)) {
+                $btn.prop({disabled: true}).data({amount: 0});
                 messenger.echoError(result.error);
             }
             else {
-                $btn.prop({ disabled: false }).data({ amount: result.count });
+                $btn.prop({disabled: false}).data({amount: result.count});
                 messenger.echoMessage(result.count);
             }
         }
 
         $btn.on('click', function () {
             var value = $input.val();
+            startNumber = 0;
             clearInformationPanelAndHide();
+
+            if ($btn.data('amount') > 100)
+                startScrollListener();
 
             fetchLuckyNumbersListFor(value)
                 .done(dealLuckyNumbersListResult);
         });
 
         function fetchLuckyNumbersListFor(numberOfDigits) {
-            return $.getJSON('/api/luckynumbers/' + numberOfDigits + '/list');
+            return $.getJSON('/api/luckynumbers/' + numberOfDigits + '/list/' + startNumber);
         }
 
         function dealLuckyNumbersListResult(result) {
-            var total = 0;
-
-            if ( isResultHasError(result) )
+            if (isResultHasError(result))
                 messenger.echoError(result.error);
             else {
+                startNumber = result.list[result.list.length - 1];
                 echoList(result.list);
-                total += result.list.length;
 
-                if ( total < $btn.data('amount') )
-                    $(window).scroll(function () {
-                        if ( $(window).scrollTop() == $(document).height() - $(window).height() ) {
-                            fetchLuckyNumbersListFor($input.val())
-                                .done(dealLuckyNumbersListResult);
-                        }
-                    });
+                if (startNumber == Math.pow(10, $input.val()) - 1)
+                    $(window).off('scroll');
             }
+        }
+
+        function startScrollListener() {
+            $(window).scroll(function () {
+                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                    fetchLuckyNumbersListFor($input.val())
+                        .done(dealLuckyNumbersListResult);
+                }
+            });
         }
 
         function echoList(list) {

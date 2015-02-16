@@ -7,7 +7,7 @@ class ApiControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function LuckyNumbers_AnyRequest_ReturnsJSON()
+    public function LuckyNumbersAmount_AnyRequest_ReturnsJSON()
     {
         $client = static::createClient();
         $client->request('GET', '/api/luckynumbers/1/amount');
@@ -22,7 +22,7 @@ class ApiControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function LuckyNumbers_OddNumberOfDigits_ReturnsError()
+    public function LuckyNumbersAmount_OddNumberOfDigits_ReturnsError()
     {
         $client = static::createClient();
         $client->request('GET', '/api/luckynumbers/1/amount');
@@ -34,7 +34,7 @@ class ApiControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function LuckyNumbers_RightNumberOfDigits_ReturnsTotalPossibilities()
+    public function LuckyNumbersAmount_RightNumberOfDigits_ReturnsTotalPossibilities()
     {
         $client = static::createClient();
         $client->request('GET', '/api/luckynumbers/2/amount');
@@ -47,7 +47,7 @@ class ApiControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function LuckyNumbers_TextAsParameter_ReturnsError()
+    public function LuckyNumbersAmount_TextAsParameter_ReturnsError()
     {
         $client = static::createClient();
         $client->request('GET', '/api/luckynumbers/text/amount');
@@ -55,6 +55,34 @@ class ApiControllerTest extends WebTestCase
 
         $this->assertJsonHasKey("error", $response->getContent());
         $this->assertJsonNotHasKey("count", $response->getContent());
+    }
+
+    /**
+     * @test
+     */
+    public function LuckyNumbersList_AnyRequest_ReturnsJSON()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/luckynumbers/2/list/0');
+        $response = $client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($client->getResponse()->getContent());
+        $this->assertJson($response->getContent());
+    }
+
+    /**
+     * @test
+     */
+    public function LuckyNumbersList_RequestWithZeroIndex_ReturnsFirstHundredArray()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/luckynumbers/4/list/0');
+        $response = $client->getResponse();
+
+        $this->assertJsonNotHasKey("error", $response->getContent());
+        $this->assertJsonHasKey("list", $response->getContent());
     }
 
     /**

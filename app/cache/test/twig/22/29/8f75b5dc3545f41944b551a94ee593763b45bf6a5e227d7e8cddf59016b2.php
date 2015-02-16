@@ -23,9 +23,14 @@ class __TwigTemplate_22298f75b5dc3545f41944b551a94ee593763b45bf6a5e227d7e8cddf59
     <meta charset=\"UTF-8\"/>
     <title>Test №1</title>
     <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css\">
+    <style>
+        body {
+            margin-top: 50px;
+        }
+    </style>
 
     <link rel=\"icon\" type=\"image/x-icon\" href=\"";
-        // line 8
+        // line 13
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("favicon.ico"), "html", null, true);
         echo "\"/>
 </head>
@@ -34,9 +39,9 @@ class __TwigTemplate_22298f75b5dc3545f41944b551a94ee593763b45bf6a5e227d7e8cddf59
     <div class=\"row\">
         <div class=\"col-sm-6 col-sm-offset-3\">
             ";
-        // line 14
+        // line 19
         $this->displayBlock('body', $context, $blocks);
-        // line 15
+        // line 20
         echo "        </div>
     </div>
 </div>
@@ -44,7 +49,7 @@ class __TwigTemplate_22298f75b5dc3545f41944b551a94ee593763b45bf6a5e227d7e8cddf59
 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>
 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js\"></script>
 <script type=\"text/javascript\" src=\"";
-        // line 21
+        // line 26
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/main.js"), "html", null, true);
         echo "\"/>
 </body>
@@ -52,7 +57,7 @@ class __TwigTemplate_22298f75b5dc3545f41944b551a94ee593763b45bf6a5e227d7e8cddf59
 ";
     }
 
-    // line 14
+    // line 19
     public function block_body($context, array $blocks = array())
     {
     }
@@ -69,6 +74,6 @@ class __TwigTemplate_22298f75b5dc3545f41944b551a94ee593763b45bf6a5e227d7e8cddf59
 
     public function getDebugInfo()
     {
-        return array (  56 => 14,  48 => 21,  40 => 15,  38 => 14,  29 => 8,  20 => 1,);
+        return array (  61 => 19,  53 => 26,  45 => 20,  43 => 19,  34 => 13,  20 => 1,);
     }
 }

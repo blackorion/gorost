@@ -23,16 +23,18 @@ class ApiController extends Controller
     }
 
     /**
-     * @Route("/api/luckynumbers/{number_of_digits}/list")
-     * @param mixed $number_of_digits
-     *
+     * @Route("/api/luckynumbers/{number_of_digits}/list/{start_num}", defaults={"start_num" = 0})
+
+     * @param int $number_of_digits
+     * @param int $start_num
+
      * @return string
      */
-    public function luckyNumbersList($number_of_digits)
+    public function luckyNumbersList($number_of_digits, $start_num)
     {
         if ( !Validator::isValid($number_of_digits) )
             return JsonResponse::create(['error' => Validator::$lastError]);
 
-        return JsonResponse::create(["list" => LuckyNumbers::generate($number_of_digits)]);
+        return JsonResponse::create(["list" => LuckyNumbers::generate($number_of_digits, $start_num)]);
     }
 }

@@ -36,19 +36,35 @@ class __TwigTemplate_a9a310f4a53cf647315a6fc73a948c73e66a4e7851c75826d79439174c9
     public function block_body($context, array $blocks = array())
     {
         // line 4
-        echo "    <form class=\"form-horizontal\" role=\"form\">
-        <div class=\"form-group\">
-            <legend>Форма ввода кол. разрядов</legend>
-        </div>
-        <div class=\"form-group\">
-            <label for=\"num-digits\" class=\"col-sm-4 control-label\">Кол. разрядов:</label>
+        echo "    <div class=\"row\">
+        <div class=\"col-sm-12\">
+            <form class=\"form-horizontal\" role=\"form\" autocomplete=\"off\">
+                <div class=\"form-group\">
+                    <legend><h3>Форма ввода кол. разрядов</h3></legend>
+                </div>
+                <div class=\"form-group\">
+                    <label for=\"num-digits\" class=\"col-sm-3 control-label\">Кол. разрядов:</label>
 
-            <div class=\"col-sm-4\">
-                <input type=\"number\" name=\"num-digits\" id=\"num-digits\" class=\"form-control\" value=\"\" title=\"\" required=\"required\">
-            </div>
-            <div class=\"col-sm-4 control-label\" id=\"error\"></div>
+                    <div class=\"col-sm-6\">
+                        <input type=\"number\" name=\"num-digits\" id=\"num-digits\" class=\"form-control\" value=\"\" title=\"\" required=\"required\">
+                    </div>
+                    <div class=\"col-sm-3\">
+                        <button type=\"button\" id=\"show\" class=\"btn btn-primary btn-block\" disabled>Показать список</button>
+                    </div>
+                </div>
+                <div class=\"form-group\">
+                    <div class=\"col-sm-6 col-sm-offset-3 control-label\" id=\"message\"></div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
+    <div class=\"row\">
+        <div class=\"col-sm-12\">
+            <div id=\"possible-values\" class=\"panel panel-default hidden\">
+                <div class=\"panel-body\"></div>
+            </div>
+        </div>
+    </div>
 ";
     }
 

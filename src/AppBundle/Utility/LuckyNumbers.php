@@ -4,14 +4,15 @@ class LuckyNumbers
 {
     /**
      * @param int $number_of_digits
+     * @param int $start_index
      *
      * @return \string[]
      */
-    public static function generate($number_of_digits)
+    public static function generate($number_of_digits, $start_index)
     {
         $generator = new LuckyNumbersGenerator();
 
-        return $generator->generate($number_of_digits);
+        return $generator->generate($number_of_digits, $start_index);
     }
 
     /**

@@ -135,8 +135,8 @@ class appTestUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 }
 
                 // app_api_luckynumberslist
-                if (preg_match('#^/api/luckynumbers/(?P<number_of_digits>[^/]++)/list$#s', $pathinfo, $matches)) {
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'app_api_luckynumberslist')), array (  '_controller' => 'AppBundle\\Controller\\ApiController::luckyNumbersList',));
+                if (preg_match('#^/api/luckynumbers/(?P<number_of_digits>[^/]++)/list(?:/(?P<start_num>[^/]++))?$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'app_api_luckynumberslist')), array (  'start_num' => 0,  '_controller' => 'AppBundle\\Controller\\ApiController::luckyNumbersList',));
                 }
 
             }
