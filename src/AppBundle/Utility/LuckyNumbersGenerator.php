@@ -5,6 +5,9 @@ class LuckyNumbersGenerator
     const RESULT_LIMIT = 100;
 
     /**
+     * Генерация списка чисел от заданого индекса вуказаном количестве разрядов.
+     * Лимит в 100 чисел.
+     *
      * @param int        $number_of_digits
      * @param mixed|null $start_index
      *
@@ -12,10 +15,7 @@ class LuckyNumbersGenerator
      */
     public function generate($number_of_digits, $start_index = null)
     {
-        $result = [];
-
-        if ( !$start_index )
-            $result[] = sprintf("%0{$number_of_digits}d", 0);
+        $result = $this->initReturnArray($number_of_digits, $start_index);
 
         $half = $number_of_digits / 2;
 
@@ -41,13 +41,13 @@ class LuckyNumbersGenerator
      */
     private function getNumbers($half, $indexes)
     {
-        $max = pow(10, $half);
+        $maximal_half_number = pow(10, $half);
 
-        for ( $i = $indexes['right']; $i < $max; $i++ )
+        for ( $i = $indexes['right']; $i < $maximal_half_number; $i++ )
         {
             $i_sum = self::countTotalSummaryOfNumberDigitValues($i);
 
-            for ( $j = $indexes['left']; $j < $max; $j++ )
+            for ( $j = $indexes['left']; $j < $maximal_half_number; $j++ )
             {
                 $j_sum = self::countTotalSummaryOfNumberDigitValues($j);
 
@@ -103,5 +103,20 @@ class LuckyNumbersGenerator
         $indexes['right'] = substr((string)$start_from, (-1 * $half));
 
         return $indexes;
+    }
+
+    /**
+     * @param int $number_of_digits
+     * @param int $start_index
+     * @return array
+     */
+    protected function initReturnArray($number_of_digits, $start_index)
+    {
+        $result = [];
+
+        if ( !$start_index )
+            $result[] = sprintf("%0{$number_of_digits}d", 0);
+
+        return $result;
     }
 }

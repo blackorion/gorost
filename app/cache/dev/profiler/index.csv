@@ -407,3 +407,7 @@ c2d28a,127.0.0.1,GET,http://localhost:8000/api/luckynumbers/6/list/500014,142411
 ce1212,127.0.0.1,GET,http://localhost:8000/api/luckynumbers/16/amount,1424113041,
 2999db,127.0.0.1,GET,http://localhost:8000/api/luckynumbers/16/list/0,1424113103,9311ee
 9311ee,127.0.0.1,GET,http://localhost:8000/api/luckynumbers/16/list/0,1424113103,
+1c0fa5,127.0.0.1,GET,http://localhost:8000/api/luckynumbers/2/amount,1424114320,
+ad1f14,127.0.0.1,GET,http://localhost:8000/api/luckynumbers/2/list/0,1424114321,
+142df8,127.0.0.1,GET,http://localhost:8000/api/luckynumbers/4/amount,1424114324,
+637d83,127.0.0.1,GET,http://localhost:8000/api/luckynumbers/4/list/0,1424114324,

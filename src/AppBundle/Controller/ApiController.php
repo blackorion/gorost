@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ApiController extends Controller
 {
     /**
+     * Общее колличество счастливых чисел.
+     *
      * @Route("/api/luckynumbers/{number_of_digits}/amount")
      * @param mixed $number_of_digits
      *
@@ -23,6 +25,9 @@ class ApiController extends Controller
     }
 
     /**
+     * Список чисел в указаном разряде, от индекса и дальше.
+     * При нуле первое число входит в список.
+     *
      * @Route("/api/luckynumbers/{number_of_digits}/list/{start_num}", defaults={"start_num" = 0})
 
      * @param int $number_of_digits

@@ -8,6 +8,8 @@ class LuckyNumbersCalculator
     private $cache = [];
 
     /**
+     * Подсчет счастливых чисел.
+     *
      * @param int $number_of_digits
      *
      * @return int
